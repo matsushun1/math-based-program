@@ -28,19 +28,19 @@ export default {
       radix16Rule: [
         value => {
           const pattern = /^(?:0[xX])?[0-9a-fA-F]+$/
-          return pattern.test(value) || '適切な数値を入力してください'
+          return StringUtil.patternTest(pattern, value)
         }
       ],
       radix10Rule: [
         value => {
           const pattern = /[+-]?[0-9]+$/
-          return pattern.test(value) || '適切な数値を入力してください'
+          return StringUtil.patternTest(pattern, value)
         }
       ],
       radix2Rule: [
         value => {
           const pattern = /^[01]+$/
-          return pattern.test(value) || '適切な数値を入力してください'
+          return StringUtil.patternTest(pattern, value)
         }
       ]
     }
@@ -77,6 +77,9 @@ export default {
         this.radixData10 = StringUtil.scaleNumber(value, 10)
       }
     }
+  },
+
+  methods: {
   }
 }
 </script>
