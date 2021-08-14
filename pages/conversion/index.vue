@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import * as StringUtil from '../../sub/helper/StringUtil'
+import * as StringUtil from '../../sub/util/StringUtil'
 
 export default {
   data() {

@@ -50,6 +50,15 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+
+      <v-switch v-model="isDarkMode" class="mt-5">
+        <template v-slot:prepend>
+          <v-icon :color="lightOnSun">mdi-weather-sunny</v-icon>
+        </template>
+        <template v-slot:append>
+          <v-icon :color="lightOnMoon">mdi-weather-night</v-icon>
+        </template>
+      </v-switch>
       <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
@@ -108,15 +117,49 @@ export default {
         },
         {
           icon: 'mdi-counter',
-          title: '基数変換',
-          to: '/conversion/radix-conversion'
+          title: '様々な変換',
+          to: '/conversion'
+        },
+        {
+          icon: 'mdi-flag',
+          title: 'フラグによる状態管理',
+          to: '/flag-management'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Vuetify.js',
+      isDarkMode: true,
     }
+  },
+
+  computed: {
+    lightOnMoon() {
+      return this.isDarkMode ? 'lime accent-2' : 'grey'
+    },
+    lightOnSun() {
+      return this.isDarkMode ? 'grey' : 'orange darken-2'
+    }
+  },
+
+  watch: {
+    isDarkMode() {
+      this.$vuetify.theme.dark = this.isDarkMode
+      this.$vuetify.theme.options.themeCache.set('darkTheme', JSON.stringify(this.isDarkMode))
+    }
+  },
+
+  created() {
+    this.isDarkMode = JSON.parse(this.$vuetify.theme.options.themeCache.get('darkTheme'))
+  },
+
+  mounted() {
+    this.$vuetify.theme.dark = this.isDarkMode
   }
 }
 </script>
+<style lang="scss">
+
+</style>
+
