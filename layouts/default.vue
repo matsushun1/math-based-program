@@ -124,6 +124,11 @@ export default {
           icon: 'mdi-flag',
           title: 'フラグによる状態管理',
           to: '/flag-management'
+        },
+        {
+          icon: 'mdi-shape-outline',
+          title: '数学的に図形を描画する',
+          to: '/draw-shape'
         }
       ],
       miniVariant: false,
