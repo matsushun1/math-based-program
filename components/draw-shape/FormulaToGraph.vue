@@ -30,7 +30,7 @@
       </v-form>
     </v-expand-transition>
     <div v-if="currentComponentName === 'LineChart'">
-      <LineChart :propOptions="getChartOptions" :chart-data="chartdata" />
+      <LineChart :propOptions="getChartOptions" :chartData="chartdata" />
     </div>
   </div>
 </template>
@@ -70,7 +70,9 @@ export default {
         }
       },
 
-      chartdata: [],
+      chartdata: {},
+      datasets: [],
+      labels: [],
       a: 3,
       minX: 1,
       maxX: 10,
