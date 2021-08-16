@@ -3,10 +3,10 @@ import * as NumberUtil from '../util/NumberUtil'
 
 /**
  * start ~ end範囲のNumber配列を取得する
- * start, endが小数だった場合
+ * start, end, stepが小数の場合桁上げを行い、計算完了後に桁下げを施す。マイナス値にも対応
  * @param {*} start
  * @param {*} end
- * @param {*} step
+ * @param {*} step デフォルト1
  * @returns
  */
 export const getNumberRange = (start, end, step = 1) => {
@@ -18,7 +18,6 @@ export const getNumberRange = (start, end, step = 1) => {
   const [startNum, endNum] = [start, end].map(num => num ** carry)
 
   const stepNum = step ** (NumberUtil.getDecimalDigits(step) || 1)
-  // const ret = Array.from({length: Math.abs(endNum - startNum) + 1}, (_, i) => (startNum + i) / carry)
   const ret = []
   for (let i = startNum; i <= endNum; i += stepNum) {
     ret.push(i / carry)
