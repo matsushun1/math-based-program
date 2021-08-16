@@ -18,12 +18,8 @@ export default {
   },
 
   watch: {
-    'chartData': {
-      handler: (newValue) => {
-        console.log(newValue)
-        this.$data._chart.destroy()
-        this.renderChart(newValue, this.propOptions)
-      }
+    chartData () {
+      this.renderChart(this.chartData, this.propOptions)
     }
   }
 }
