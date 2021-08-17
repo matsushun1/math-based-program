@@ -40,6 +40,7 @@ import BarChart from '../chart/BarChart.vue'
 import LineChart from '../chart/LineChart.vue'
 import * as CalcHelperForGraph from '../../sub/helper/calc/CalcHelperForGraph'
 import * as ArrayUtil from '../../sub/util/ArrayUtil'
+import * as NumberUtil from '../../sub/util/NumberUtil'
 import { COLORSTACK } from '../../sub/config/Constant'
 
 export default {
@@ -71,8 +72,6 @@ export default {
       },
 
       chartdata: {},
-      datasets: [],
-      labels: [],
       a: 3,
       minX: 1,
       maxX: 10,
@@ -97,19 +96,18 @@ export default {
 
   methods: {
     executeFunction() {
-      const y = CalcHelperForGraph.linearFunction(this.a, ArrayUtil.getNumberRange(this.minX, this.maxX, this.step), this.b)
+      const numberRange = ArrayUtil.getNumberRange(this.minX, this.maxX, this.step)
+
+      const y = CalcHelperForGraph.linearFunction(this.a, numberRange, this.b)
       const colors = y.map((_, i) => COLORSTACK[i % COLORSTACK.length])
       const datasets = [{label: ['Data one'], pointBackgroundColor: colors, borderColor: 'info', borderWidth: 1, data: y, fill: false}]
-      const labels = this.getLabels()
+      console.log(y)
       this.chartdata = {
-        labels,
+        labels: numberRange,
         datasets
       }
     },
 
-    getLabels() {
-      return ArrayUtil.getNumberRange(this.minX, this.maxX)
-    }
   }
 }
 </script>
