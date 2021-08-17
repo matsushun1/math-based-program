@@ -17,10 +17,10 @@ export default {
     this.renderChart(this.chartData, this.propOptions)
   },
 
-  watch: {
-    chartData () {
-      this.renderChart(this.chartData, this.propOptions)
-    }
-  }
+  // watch: {
+  //   chartData () {
+  //     this.renderChart(this.chartData, this.propOptions)
+  //   }
+  // }
 }
 </script>
