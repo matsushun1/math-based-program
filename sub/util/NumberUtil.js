@@ -1,3 +1,5 @@
+import { BigNumber } from 'bignumber.js'
+
 
 /**
  * 値が小数かどうか判定する。falseであれば整数
@@ -25,4 +27,6 @@ export const getDecimalDigits = (num) => {
 export const getCarry = (decimal) => {
   return 10 ** getDecimalDigits(decimal)
 }
+
+export const isMinus = num =>  (Math.sign(num) == -1)
 
