@@ -9,16 +9,19 @@ import * as NumberUtil from '../../util/NumberUtil'
  * @returns {Array} y
  */
 export const linearFunction = (a, xRange, b) => {
-  const minX = Math.min(...xRange)
+  const absNumbers = [...xRange, a, b].map(num => Math.abs(num))
+  const minX = Math.min(...absNumbers)
   if (!NumberUtil.isDecimalNumber(minX)) {
     return xRange.map(x => (a * x + b))
   }
 
   const carry = NumberUtil.getCarry(minX)
   const carriedNumberRange = xRange.map(num => num * carry)
-  return carriedNumberRange.map(x => {
-    console.log('a: ' + a + ', x: ' + x + ', carry: ' + carry)
-    console.log('a * x / carry = ' + (a * x / carry))
-    return (a * x / carry + b)
+  const carriedA = a * carry
+  const carriedB = b * carry
+
+  return carriedNumberRange.map(carriedX => {
+    const ax = Number(carriedA * carriedX) / carry
+    return (ax + carriedB) / carry
   })
 }
