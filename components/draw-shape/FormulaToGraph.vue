@@ -2,6 +2,7 @@
 <template>
   <div>
     <!-- <component :is="currentComponentName" :propOptions="chartOptions" /> -->
+    <p class="text-center" style="color: #4FC3F7;">{{ getTitleOption() }}</p>
     <BarChart v-if="currentComponentName === 'BarChart'" :propOptions="getChartOptions" />
     <v-expand-transition>
       <v-form v-show="currentComponentName === 'LineChart'">
@@ -30,7 +31,7 @@
       </v-form>
     </v-expand-transition>
     <div v-if="currentComponentName === 'LineChart'">
-      <LineChart :propOptions="getChartOptions" :chartData="chartdata" />
+      <LineChart :options="chartOptions" :chartData="chartdata" />
     </div>
   </div>
 </template>
@@ -40,7 +41,6 @@ import BarChart from '../chart/BarChart.vue'
 import LineChart from '../chart/LineChart.vue'
 import * as CalcHelperForGraph from '../../sub/helper/calc/CalcHelperForGraph'
 import * as ArrayUtil from '../../sub/util/ArrayUtil'
-import * as NumberUtil from '../../sub/util/NumberUtil'
 import { COLORSTACK } from '../../sub/config/Constant'
 
 export default {
@@ -83,10 +83,7 @@ export default {
   computed: {
     getChartOptions() {
       if (this.currentComponentName === 'BarChart') return this.chartOptions
-
-      const options = Object.assign({}, this.chartOptions)
-      options.title = {display: true, text: `y = ${this.a}x + (${this.b})`, fontColor: '#4FC3F7'}
-      return options
+      return this.chartOptions
     }
   },
 
@@ -106,7 +103,11 @@ export default {
         labels: numberRange,
         datasets
       }
+
     },
+    getTitleOption() {
+      return `y = ${this.a}x + (${this.b})`
+    }
 
   }
 }
