@@ -63,10 +63,12 @@ export default {
         maintainAspectRatio: false,
         scales: {
           xAxes: [{
-            gridLines: {color: '#BDBDBD', lineWidth: 0.5, zeroLineColor: 'contrast'}
+            gridLines: {color: '#BDBDBD', lineWidth: 0.5, zeroLineColor: 'contrast'},
+            ticks: {max: 10, min: -5, stepSize: 1}
           }],
           yAxes: [{
-            gridLines: {color: '#BDBDBD', lineWidth: 0.5, zeroLineColor: 'contrast'}
+            gridLines: {color: '#BDBDBD', lineWidth: 0.5, zeroLineColor: 'contrast'},
+            ticks: {max: 5, min: -5, stepSize: 1}
           }]
         }
       },
