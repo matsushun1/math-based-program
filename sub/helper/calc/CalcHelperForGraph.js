@@ -9,8 +9,9 @@ import * as NumberUtil from '../../util/NumberUtil'
  * @returns {Array} y
  */
 export const linearFunction = (a, xRange, b) => {
-  const absNumbers = [...xRange, a, b].map(num => Math.abs(num))
+  const absNumbers = [...xRange, a, b].map(num => Math.abs(num)).filter(num => num != 0)
   const minX = Math.min(...absNumbers)
+
   if (!NumberUtil.isDecimalNumber(minX)) {
     return xRange.map(x => (a * x + b))
   }
