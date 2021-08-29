@@ -134,7 +134,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: '数学の学習',
       isDarkMode: true,
     }
   },
