@@ -43,7 +43,7 @@
             </v-row>
             <v-row>
               <v-btn color="cyan" class="mr-2" small outlined @click.stop="executeFunction()">実行</v-btn>
-              <v-btn color="pink lighten-2" small outlined @click.stop="executeFunction()">リセット</v-btn>
+              <v-btn color="pink lighten-2" small outlined @click.stop="clearFunction()">クリア</v-btn>
             </v-row>
           </v-col>
         </v-row>
@@ -51,40 +51,80 @@
         <!-- ダイアログ -->
         <v-dialog v-model="dialog" max-width="50%">
           <v-card>
-            <v-card-title><span class="text-h5">関数を追加する</span></v-card-title>
-            <v-card-text>
-            <v-container>
-              <v-row>
-                  <v-col cols="8" v-for="(func, i) in additionalFuncList" :key="i">
-                    <v-row>
-                      <v-col cols="6"><v-text-field label="関数: a" v-model="func.a" required></v-text-field></v-col>
-                      <v-col cols="6"><v-text-field label="関数: b" v-model="func.b" required></v-text-field></v-col>
-                    </v-row>
-                  </v-col>
-                <v-col cols="4" align-self="center">
-                  <v-icon fab large @click.stop="addForm()">mdi-plus-circle-outline</v-icon>
-                  <v-icon fab large @click.stop="removeForm()">mdi-minus-circle-outline</v-icon>
-                </v-col>
-              </v-row>
-            </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="red"
-            text
-            @click="dialog = false"
-          >
-            閉じる
-          </v-btn>
-          <v-btn
-            color="cyan"
-            text
-            @click="addFunction()"
-          >
-            実行
-          </v-btn>
-        </v-card-actions>
+            <v-tabs grow icons-and-text color="contrast">
+              <v-tabs-slider></v-tabs-slider>
+              <v-tab>
+                追加の関数を実行
+                <v-icon>mdi-function-variant</v-icon>
+              </v-tab>
+
+              <v-tab-item>
+                <v-card>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="8" v-for="(func, i) in additionalFuncList" :key="i">
+                          <v-row>
+                            <v-col cols="6"><v-text-field label="関数: a" v-model="func.a" required></v-text-field></v-col>
+                            <v-col cols="6"><v-text-field label="関数: b" v-model="func.b" required></v-text-field></v-col>
+                          </v-row>
+                        </v-col>
+                        <v-col cols="4" align-self="center">
+                          <v-icon fab large @click.stop="addForm()">mdi-plus-circle-outline</v-icon>
+                          <v-icon fab large @click.stop="removeForm()">mdi-minus-circle-outline</v-icon>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="dialog = false">閉じる</v-btn>
+                    <v-btn color="cyan" text @click.stop="addFunction()">実行</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-tab-item>
+
+              <v-tab>
+                X・Y座標から関数を生成する
+                <v-icon>mdi-map-marker-plus-outline</v-icon>
+              </v-tab>
+              <v-tab-item>
+                <v-card>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="8" v-for="(xy, i) in xyList" :key="i">
+                          <v-row>
+                            <v-col cols="6"><v-text-field label="X座標" v-model="xy.x" required></v-text-field></v-col>
+                            <v-col cols="6"><v-text-field label="Y座標" v-model="xy.y" required></v-text-field></v-col>
+                          </v-row>
+                        </v-col>
+                        <v-col cols="4">
+                          <v-row align="start">
+                            <v-col cols="12">
+                            <v-radio-group dark row v-model="intersectCondition" class="mt-0">
+                              <v-radio label="平行" value="parallel" class="mt-5" style="transform: scale(0.8)" />
+                              <v-radio label="直交" value="orthogonal" class="mt-5" style="transform: scale(0.8)" />
+                            </v-radio-group>
+                            </v-col>
+                            <!-- <v-col cols="12">
+                              <v-icon fab large @click.stop="addForm()">mdi-plus-circle-outline</v-icon>
+                              <v-icon fab large @click.stop="removeForm()">mdi-minus-circle-outline</v-icon>
+                            </v-col> -->
+                          </v-row>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red" text @click="dialog = false">閉じる</v-btn>
+                    <v-btn color="cyan" text @click.stop="createFunction()">関数生成</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-tab-item>
+
+            </v-tabs>
           </v-card>
         </v-dialog>
       </v-form>
@@ -145,6 +185,12 @@ export default {
       additionalFuncList: [
         {a: 0, b: 0}
       ],
+
+      xyList: [
+        {x: 0, y: 0}
+      ],
+
+      intersectCondition: 'parallel',
 
       dialog: false,
       ticksWidthCaution: 'X, Y軸の幅が均等でないと、直交条件を視覚的に判断することができなくなります。'
@@ -230,14 +276,36 @@ export default {
       return (firstA * secondA == -1)
     },
 
-    showTicksWidthCaution() {
+    clearFunction() {
+      this.firstAB.a = 3
+      this.firstAB.b = -24
+      this.minX = -5
+      this.maxX = 40
+      this.step = 1
+      this.additionalFuncList = [{a: 0, b:0}]
+      this.xyList.x = 0
+      this.xyList.y = 0
+    },
 
+    createFunction() {
+      this.xyList.map(xyObj => {
+        const x = Number(xyObj.x)
+        const y = Number(xyObj.y)
+
+        const a = this.intersectCondition === 'parallel'
+          ? this.firstAB.a
+          : Math.round(-1 / this.firstAB.a) // 直交条件 a1 * a2 = -1 による
+
+        const b =  ((a * x) * -1) + y // y = ax + b に代入
+          this.executeFunction([{a, b}])
+      })
+      this.dialog = false
     }
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '../../assets/variables.scss';
+
 </style>
