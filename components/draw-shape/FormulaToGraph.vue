@@ -285,6 +285,7 @@ export default {
       this.additionalFuncList = [{a: 0, b:0}]
       this.xyList.x = 0
       this.xyList.y = 0
+      this.executeFunction()
     },
 
     createFunction() {
