@@ -1,5 +1,3 @@
-import { BigNumber } from 'bignumber.js'
-
 
 /**
  * 値が小数かどうか判定する。falseであれば整数

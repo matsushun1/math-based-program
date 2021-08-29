@@ -24,6 +24,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/neon.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -48,6 +49,7 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       options: {
+        customProperties: true,
         themeCache: {
           get: key => localStorage.getItem(key),
           set: (key, value) => localStorage.setItem(key, value),
