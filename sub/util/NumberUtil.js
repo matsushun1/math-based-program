@@ -28,3 +28,18 @@ export const getCarry = (decimal) => {
 
 export const isMinus = num =>  (Math.sign(num) == -1)
 
+/**
+ * 指定桁数で切り捨てする
+ * @param {*} value
+ * @param {*} base
+ * @returns
+ */
+export const orgFloor = (value, base) => Math.floor(value * (10 ** base)) / (10 ** base)
+
+export const orgRound = (value, base) => Math.round(value * (10 ** base)) / (10 ** base)
+
+export const orgCeil = (value, base) => Math.ceil(value * (10 ** base)) / (10 ** base)
+
+export const orgTrunc = (value, base) => Math.trunc(value * (10 ** base)) / (10 ** base)
+
+

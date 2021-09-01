@@ -140,6 +140,7 @@ import BarChart from '../chart/BarChart.vue'
 import LineChart from '../chart/LineChart.vue'
 import * as CalcHelperForGraph from '../../sub/helper/calc/CalcHelperForGraph'
 import * as ArrayUtil from '../../sub/util/ArrayUtil'
+import * as NumberUtil from '../../sub/util/NumberUtil'
 import { COLORSTACK } from '../../sub/config/Constant'
 
 export default {
@@ -271,8 +272,6 @@ export default {
     },
 
     isOrthogonalCond(firstA, secondA) {
-      console.log('firstA: ' + firstA)
-      console.log('secondA: ' + secondA)
       return (firstA * secondA == -1)
     },
 
@@ -295,10 +294,12 @@ export default {
 
         const a = this.intersectCondition === 'parallel'
           ? this.firstAB.a
-          : Math.round(-1 / this.firstAB.a) // 直交条件 a1 * a2 = -1 による
+          : NumberUtil.orgTrunc((-1 / this.firstAB.a), 2) // 直交条件 a1 * a2 = -1 による
 
-        const b =  ((a * x) * -1) + y // y = ax + b に代入
-          this.executeFunction([{a, b}])
+        const b =  NumberUtil.orgTrunc(((a * x) * -1), 2) + y // y = ax + b に代入 小数点第一位で
+
+        console.log(`a: ${a}, b: ${b}`)
+        this.executeFunction([{a, b}])
       })
       this.dialog = false
     }
