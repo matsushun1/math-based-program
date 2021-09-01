@@ -43,7 +43,7 @@
             </v-row>
             <v-row>
               <v-btn color="cyan" class="mr-2" small outlined @click.stop="executeFunction()">実行</v-btn>
-              <v-btn color="pink lighten-2" small outlined @click.stop="clearFunction()">クリア</v-btn>
+              <v-btn color="pink lighten-2" small outlined @click.stop="clearFunction()">リセット</v-btn>
             </v-row>
           </v-col>
         </v-row>
@@ -272,7 +272,7 @@ export default {
     },
 
     isOrthogonalCond(firstA, secondA) {
-      return (firstA * secondA == -1)
+      return (Math.round(firstA * secondA) == -1)
     },
 
     clearFunction() {
@@ -294,9 +294,9 @@ export default {
 
         const a = this.intersectCondition === 'parallel'
           ? this.firstAB.a
-          : NumberUtil.orgTrunc((-1 / this.firstAB.a), 2) // 直交条件 a1 * a2 = -1 による
+          : NumberUtil.orgTrunc((-1 / this.firstAB.a), 1) // 直交条件 a1 * a2 = -1 による
 
-        const b =  NumberUtil.orgTrunc(((a * x) * -1), 2) + y // y = ax + b に代入 小数点第一位で
+        const b =  NumberUtil.orgTrunc(((a * x) * -1), 1) + y // y = ax + b に代入 小数点第一位で
 
         console.log(`a: ${a}, b: ${b}`)
         this.executeFunction([{a, b}])
