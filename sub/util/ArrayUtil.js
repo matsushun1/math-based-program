@@ -10,8 +10,8 @@ import * as NumberUtil from '../util/NumberUtil'
  * @returns
  */
 export const getNumberRange = (start, end, step = 1) => {
-  const stepIsMinus = (Math.sign(step) == -1)
-  if ((start < end && stepIsMinus) || (end < start && !stepIsMinus)) return []
+  const isStepMinus = NumberUtil.isMinus(step)
+  if ((start < end && isStepMinus) || (end < start && !isStepMinus)) return []
 
   const carry = NumberUtil.getCarry(Math.min(start, end, step))
   const [startNum, endNum, stepNum] = [start, end, step].map(num => carry * num)
