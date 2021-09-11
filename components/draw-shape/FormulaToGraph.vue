@@ -4,17 +4,20 @@
     <!-- <component :is="currentComponentName" :propOptions="chartOptions" /> -->
     <BarChart v-if="currentComponentName === 'BarChart'" :propOptions="getChartOptions" />
     <formula-to-line-chart v-if="currentComponentName === 'LineChart'" :propOptions="getChartOptions" />
+    <circle-animation v-if="currentComponentName === 'Circle'" />
   </div>
 </template>
 
 <script>
 import BarChart from '../chart/BarChart.vue'
 import FormulaToLineChart from '../chart/FormulaToLineChart.vue'
+import CircleAnimation from '../circle/CircleAnimation.vue'
 
 export default {
   components: {
     BarChart,
-    FormulaToLineChart
+    FormulaToLineChart,
+    CircleAnimation
   },
 
   props: {

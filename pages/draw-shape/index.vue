@@ -25,7 +25,7 @@ export default {
       tabs: [
         {label: '棒グラフ', icon: 'mdi-chart-bar-stacked', componentName: 'BarChart'},
         {label: '線グラフ', icon: 'mdi-chart-bell-curve', componentName: 'LineChart'},
-        {label: '図形', icon: 'mdi-chart-bell-curve', componentName: 'LineChart'},
+        {label: '図形', icon: 'mdi-shape-plus', componentName: 'Circle'},
       ],
       componentName: '',
     }
