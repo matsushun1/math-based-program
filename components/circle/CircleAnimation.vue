@@ -7,10 +7,21 @@
         </v-col>
       </v-row>
       <v-card-actions>
-        <v-btn @click.stop="drawCircle()">描画</v-btn>
-        <v-btn @click.stop="stopDraw()">停止</v-btn>
+        <span></span>
+        <v-btn color="contrast" outlined small @click.stop="dialog = true">作成</v-btn>
+        <v-btn color="cyan" outlined small @click.stop="drawCircle()">描画</v-btn>
+        <v-btn color="pink" outlined small @click.stop="stopDraw()">停止</v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-dialog v-model="dialog" max-width="50%">
+      <v-card>
+        <v-card-title>新規作成</v-card-title>
+        <v-card-text>
+
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <div>
 
     </div>
@@ -18,7 +29,7 @@
 </template>
 
 <script>
-import * as NumberUtil from '../../sub/util/NumberUtil'
+import {Circle} from '../../sub/class/Circle'
 
 export default {
   data() {
@@ -27,6 +38,10 @@ export default {
       canvasHeight: 500,
       canvas: null,
       loopId: null,
+
+      circleList: [],
+
+      dialog: false,
     }
   },
 
@@ -37,43 +52,14 @@ export default {
   },
 
   methods: {
-    drawCircle() {
-      const ctx = this.canvas.getContext('2d')
-
-      const centerX = this.canvasWidth * 0.5
-      const centerY = this.canvasHeight * 0.5
-      const distanceFromCenter = 100
-
-      const circleRadius = 20
-
-      let x = centerX
-      let y = centerY
-      let angle = 1
-      let radian = 0
-      ctx.strokeStyle = 'white'
-      ctx.fillStyle = 'white'
-
-      const loop = () => {
-        ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-
-        radian += NumberUtil.radian(angle)
-
-        x = distanceFromCenter * Math.cos(radian) + centerX
-        y = distanceFromCenter * Math.sin(radian) + centerY
-
-        ctx.beginPath()
-        ctx.arc(x, y, circleRadius, 0, Math.PI * 2)
-        ctx.fill()
-
-        this.loopId =  window.requestAnimationFrame(loop)
-      }
-
-      loop()
+    drawCircle() { // TODO: 指定した円を操作できるように調整する
+      const circleA = new Circle(this.canvas.getContext('2d'), 'cyan', 'cyan', 1, 5)
+      this.circleList.push(circleA)
+      this.circleList[0].draw(this.canvasWidth, this.canvasHeight, this.canvasWidth * 0.5, this.canvasHeight * 0.5, 100)
     },
 
     stopDraw() {
-      console.log(this.loopId)
-      window.cancelAnimationFrame(this.loopId)
+      this.circleList[0].stopDraw()
     }
 
   }
