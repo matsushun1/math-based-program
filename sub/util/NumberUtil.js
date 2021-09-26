@@ -43,7 +43,7 @@ export const orgCeil = (value, base) => Math.ceil(value * (10 ** base)) / (10 **
 export const orgTrunc = (value, base) => Math.trunc(value * (10 ** base)) / (10 ** base)
 
 /**
- * 角度 x 弧度法
+ * 角度（度数法） x 弧度法
  * 度数法の場合、1周を360とみなした上でどの程度の割合かを算出したもの。
  * 度数法を弧度法に変換するには、1周を2πと見なし、2πの中での度数/360の割合を求める => 2π * 割合
  * ex) 90°: 2π * 90 * 1/360 = 1/2π[rad]
@@ -52,5 +52,16 @@ export const orgTrunc = (value, base) => Math.trunc(value * (10 ** base)) / (10 
  * @returns
  */
 export const radian = degree => degree * (Math.PI / 180)
+
+/**
+ * 点(0, 0)から点(x, y)までの半直線と、正のx軸の間の平面上での角度を
+ * 度数法で返す
+ * @param {Number} x
+ * @param {Number} y
+ * @returns
+ */
+export const calcAngleDegrees = (x, y) => {
+  return Math.atan2(y, x) * 180 / Math.PI
+}
 
 
