@@ -53,4 +53,15 @@ export const orgTrunc = (value, base) => Math.trunc(value * (10 ** base)) / (10 
  */
 export const radian = degree => degree * (Math.PI / 180)
 
+/**
+ * 点(0, 0)から点(x, y)までの半直線と、正のx軸の間の平面上での角度を
+ * 度数法で返す
+ * @param {Number} x
+ * @param {Number} y
+ * @returns
+ */
+export const calcAngleDegrees = (x, y) => {
+  return Math.atan2(y, x) * 180 / Math.PI
+}
+
 
